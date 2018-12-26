@@ -18,7 +18,7 @@ exports.login = function(req, res) {
                 req.input('Username', sql.VarChar(50), username);
                 req.input('Password', sql.VarChar(100), pw);
 
-                req.execute("[userE2FreeAgent].[sp_Login]").then(function(recordsets) {
+                req.execute("[dbo].[sp_Login]").then(function(recordsets) {
                     let rows = recordsets.recordset;
                     var mainKey = rows[0];
                     var selectedKey;
@@ -27,8 +27,7 @@ exports.login = function(req, res) {
                     }
                     if (mainKey.Mensaje == "Usuario/Contraseña incorrecta") {
                         data.msg.Code = 400;
-                        data.msg.Message = 'Not logged in!';
-                        res.statusCode = 400;
+                        data.msg.Message = mainKey.Mensaje;
                         publish.publisher(res, data);
                         sql.close();
                     } else {
