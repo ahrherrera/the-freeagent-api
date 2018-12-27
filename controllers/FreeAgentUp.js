@@ -41,7 +41,7 @@ exports.login = function(req, res) {
                     }
                 }).catch(function(err) {
                     data.msg.Code = 500;
-                    data.msg.Message = err.Message;
+                    data.msg.Message = err.message;
                     publish.publisher(res, data);
                     sql.close();
                 });
@@ -53,7 +53,7 @@ exports.login = function(req, res) {
             });
     } else {
         data.msg.Code = 500;
-        data.Message = "Sin Body";
+        data.msg.Message = "Sin Body";
         publish.publisher(res, data);
     }
 };
