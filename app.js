@@ -55,5 +55,9 @@ app.use(function(req, res, next) {
 app.listen(process.env.PORT || 9999, () => console.log("Server stating on http://localhost:9999"));
 
 var postFreeAgent = require("./controllers/FreeAgentUp");
+var getFreeAgent = require("./controllers/FreeAgentDown");
 
 router.route("/FreeAgent/login").post(postFreeAgent.login);
+router.route("/FreeAgent/register").post(postFreeAgent.registerUser);
+
+router.route("/FreeAgent/getSports").get(getFreeAgent.getSports);
