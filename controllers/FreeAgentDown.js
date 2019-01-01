@@ -1,7 +1,7 @@
 var config = require("../connections/FreeAgentConnection.js"),
     sql = require('mssql'),
     publish = require('../publisher.js'),
-    jwt = require('jsonwebtoken')
+    jwt = require('jsonwebtoken');
 
 exports.getSports = function(req, res) {
     var data = {};
@@ -29,4 +29,4 @@ exports.getSports = function(req, res) {
         sql.close();
     });
 
-}
+};

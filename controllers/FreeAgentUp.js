@@ -1,7 +1,7 @@
 var config = require("../connections/FreeAgentConnection.js"),
     sql = require('mssql'),
     publish = require('../publisher.js'),
-    jwt = require('jsonwebtoken')
+    jwt = require('jsonwebtoken');
 
 exports.login = function(req, res) {
     var data = {};
@@ -25,7 +25,7 @@ exports.login = function(req, res) {
                     for (var key in mainKey) {
                         selectedKey = key;
                     }
-                    if (mainKey.Mensaje == "Usuario/Contraseña incorrecta") {
+                    if (mainKey.Status == 0) {
                         data.msg.Code = 400;
                         data.msg.Message = mainKey.Mensaje;
                         publish.publisher(res, data);
@@ -34,7 +34,7 @@ exports.login = function(req, res) {
                         jwt.sign(JSON.parse(mainKey[selectedKey]), 'cKWM5oINGy', (err, token) => {
                             data = {
                                 token: token
-                            }
+                            };
                             publish.publisher(res, data);
                         });
                         sql.close();
@@ -74,6 +74,8 @@ exports.registerUser = function(req, res) {
         request.input('gender', sql.Int, req.body.gender);
         request.input('username', sql.VarChar(150), req.body.username);
         request.input('password', sql.VarChar(100), req.body.password);
+        request.input('state', sql.VarChar(100), req.body.state);
+        request.input('skill', sql.Int, req.body.skill);
 
         request.execute("[dbo].sp_CreateUser").then(function(recordsets) {
             let rows = recordsets.recordset;
@@ -91,16 +93,21 @@ exports.registerUser = function(req, res) {
                 jwt.sign(JSON.parse(mainKey[selectedKey]), 'cKWM5oINGy', (err, token) => {
                     data = {
                         token: token
-                    }
+                    };
                     publish.publisher(res, data);
                 });
                 sql.close();
             }
-        });
-    }).catch(function() {
+        }).catch(function(err) {
+            data.msg.Code = 500;
+            data.msg.Message = err.message;
+            publish.publisher(res, data);
+            sql.close();
+        });;
+    }).catch(function(err) {
         data.msg.Code = 500;
         data.msg.Message = err.message;
         publish.publisher(res, data);
         sql.close();
     });
-}
+};

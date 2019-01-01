@@ -40,8 +40,8 @@ router.get('/', function(request, response) {
 
 router.get('/success', function(req, res) {
     res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end('<h1>200<br>Success</h1>')
-})
+    res.end('<h1>200<br>Success</h1>');
+});
 
 app.use('/', router);
 app.use('/api', router);
