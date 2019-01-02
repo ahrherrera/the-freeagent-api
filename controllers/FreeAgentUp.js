@@ -1,7 +1,7 @@
 var config = require("../connections/FreeAgentConnection.js"),
     sql = require('mssql'),
     publish = require('../publisher.js'),
-    jwt = require('jsonwebtoken')
+    jwt = require('jsonwebtoken');
 
 exports.login = function(req, res) {
     var data = {};
@@ -25,7 +25,7 @@ exports.login = function(req, res) {
                     for (var key in mainKey) {
                         selectedKey = key;
                     }
-                    if (mainKey.Mensaje == "Usuario/Contraseña incorrecta") {
+                    if (mainKey.Status == 0) {
                         data.msg.Code = 400;
                         data.msg.Message = mainKey.Mensaje;
                         publish.publisher(res, data);
@@ -34,7 +34,7 @@ exports.login = function(req, res) {
                         jwt.sign(JSON.parse(mainKey[selectedKey]), 'cKWM5oINGy', (err, token) => {
                             data = {
                                 token: token
-                            }
+                            };
                             publish.publisher(res, data);
                         });
                         sql.close();
@@ -95,7 +95,7 @@ exports.registerUser = function(req, res) {
                 jwt.sign(JSON.parse(mainKey[selectedKey]), 'cKWM5oINGy', (err, token) => {
                     data = {
                         token: token
-                    }
+                    };
                     publish.publisher(res, data);
                 });
                 sql.close();
@@ -113,4 +113,4 @@ exports.registerUser = function(req, res) {
         publish.publisher(res, data);
         sql.close();
     });
-}
+};
