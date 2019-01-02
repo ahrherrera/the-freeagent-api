@@ -74,6 +74,10 @@ exports.registerUser = function(req, res) {
         request.input('gender', sql.Int, req.body.gender);
         request.input('username', sql.VarChar(150), req.body.username);
         request.input('password', sql.VarChar(100), req.body.password);
+        request.input('bio', sql.VarChar(500), req.body.bio);
+        request.input('state', sql.VarChar(100), req.body.state);
+        request.input('skill', sql.Int, req.body.skill);
+        request.input('Positions', sql.VarChar(sql.MAX), req.body.Positions);
 
         request.execute("[dbo].sp_CreateUser").then(function(recordsets) {
             let rows = recordsets.recordset;
@@ -96,8 +100,14 @@ exports.registerUser = function(req, res) {
                 });
                 sql.close();
             }
-        });
-    }).catch(function() {
+        }).catch(function(err) {
+            data.msg.Code = 500;
+            //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
+            data.msg.Message = err.message;
+            publish.publisher(res, data);
+            sql.close();
+        });;
+    }).catch(function(err) {
         data.msg.Code = 500;
         data.msg.Message = err.message;
         publish.publisher(res, data);

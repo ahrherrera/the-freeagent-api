@@ -61,3 +61,5 @@ router.route("/FreeAgent/login").post(postFreeAgent.login);
 router.route("/FreeAgent/register").post(postFreeAgent.registerUser);
 
 router.route("/FreeAgent/getSports").get(getFreeAgent.getSports);
+router.route("/FreeAgent/checkUsername").get(getFreeAgent.checkUsername);
+router.route("/FreeAgent/getPositions").get(getFreeAgent.getPositions);
