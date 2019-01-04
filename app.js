@@ -6,10 +6,40 @@ var methodOverride = require('method-override');
 var server = http.createServer(app);
 var cors = require('cors');
 
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function(req, file, cb) {
+        cb(null, Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+});
+
+
 var router = express.Router();
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json());
 app.use(methodOverride());
+app.use('/uploads', express.static('uploads'));
 
 app.use(cors({ origin: '*' }));
 
@@ -63,3 +93,5 @@ router.route("/FreeAgent/register").post(postFreeAgent.registerUser);
 router.route("/FreeAgent/getSports").get(getFreeAgent.getSports);
 router.route("/FreeAgent/checkUsername").get(getFreeAgent.checkUsername);
 router.route("/FreeAgent/getPositions").get(getFreeAgent.getPositions);
+
+router.route("/FreeAgent/updateUser").post(upload.single('picUrl'), postFreeAgent.updateUser);

@@ -19,14 +19,22 @@ exports.getSports = function(req, res) {
                 selectedKey = key;
             }
             var records = mainKey[selectedKey];
-            publish.publisher(res, records);
             sql.close();
-        });
-    }).catch(function() {
+            publish.publisher(res, records);
+
+        }).catch(function(err) {
+            data.msg.Code = 500;
+            data.msg.Message = err.message;
+            sql.close();
+            publish.publisher(res, data);
+
+        });;
+    }).catch(function(err) {
         data.msg.Code = 500;
         data.msg.Message = err.message;
-        publish.publisher(res, data);
         sql.close();
+        publish.publisher(res, data);
+
     });
 }
 
@@ -71,8 +79,8 @@ exports.getPositions = function(req, res) {
             for (var key in mainKey) {
                 selectedKey = key;
             }
-            publish.publisher(res, mainKey[selectedKey]);
             sql.close();
+            publish.publisher(res, mainKey[selectedKey]);
         }).catch(function(err) {
             sql.close();
             data.msg.Code = 500;
