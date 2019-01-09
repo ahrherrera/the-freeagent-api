@@ -46,6 +46,7 @@ exports.checkUsername = function(req, res) {
     sql.connect(conn).then(function() {
         var request = new sql.Request();
         request.input('Username', sql.VarChar(50), req.query.Username);
+        request.input('Email', sql.VarChar(50), req.query.Email);
         request.execute("[dbo].checkUsername").then(function(recordsets) {
             let rows = recordsets.recordset;
             publish.publisher(res, rows[0]);
@@ -93,4 +94,4 @@ exports.getPositions = function(req, res) {
         data.msg.Message = err.message;
         publish.publisher(res, data);
     });
-}
+};
