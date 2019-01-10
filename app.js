@@ -89,6 +89,7 @@ var getFreeAgent = require("./controllers/FreeAgentDown");
 
 router.route("/FreeAgent/login").post(postFreeAgent.login);
 router.route("/FreeAgent/register").post(postFreeAgent.registerUser);
+router.route("/FreeAgent/sendLocation").post(postFreeAgent.sendLocation);
 
 router.route("/FreeAgent/getSports").get(getFreeAgent.getSports);
 router.route("/FreeAgent/checkUsername").get(getFreeAgent.checkUsername);
