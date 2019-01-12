@@ -267,14 +267,15 @@ exports.search = function(req, res) {
                 publish.publisher(res, data);
             } else {
                 sql.connect(conn).then(function() {
+                    console.log(req.body);
                     var request = new sql.Request();
-                    request.input('profile_id', sql.Int, req.body.profileID);
+                    request.input('profile_id', sql.Int, authData.User.Profile.id);
                     request.input('PositionID', sql.Int, req.body.positionID);
                     request.input('SportID', sql.Int, req.body.sportID);
                     request.input('startDate', sql.Date, req.body.startDate);
                     request.input('endDate', sql.Date, req.body.endDate);
-                    request.input('startTime', sql.Time(7), req.body.startTime);
-                    request.input('endTime', sql.Time(7), req.body.endTime);
+                    request.input('startTime', sql.VarChar(10), req.body.startTime);
+                    request.input('endTime', sql.VarChar(10), req.body.endTime);
                     request.input('minRate', sql.Int, req.body.minRate);
 
                     request.execute("[dbo].sp_Search").then(function(recordsets) {

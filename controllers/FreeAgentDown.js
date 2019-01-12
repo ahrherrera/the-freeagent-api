@@ -28,13 +28,12 @@ exports.getSports = function(req, res) {
             sql.close();
             publish.publisher(res, data);
 
-        });;
+        });
     }).catch(function(err) {
         data.msg.Code = 500;
         data.msg.Message = err.message;
         sql.close();
         publish.publisher(res, data);
-
     });
 }
 
