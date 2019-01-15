@@ -309,3 +309,57 @@ exports.search = function(req, res) {
         publish.publisher(res, data);
     }
 }
+
+exports.invite = function(req, res) {
+    var data = {};
+    data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };
+    var conn = config.findConfig();
+
+    const bearerHeader = req.headers['authorization'];
+    if (typeof bearerHeader !== 'undefined') {
+        const bearer = bearerHeader.split(' ');
+        const bearerToken = bearer[1];
+        req.token = bearerToken;
+        jwt.verify(req.token, 'cKWM5oINGy', (err, authData) => {
+            if (err) {
+                data.msg.Code = 400;
+                data.msg.Message = "Unauthorized";
+                publish.publisher(res, data);
+            } else {
+                sql.connect(conn).then(function() {
+                    console.log(req.body);
+                    var request = new sql.Request();
+                    request.input('ProfileID', sql.Int, req.body.profileID);
+                    request.input('SearchID', sql.Int, req.body.searchID);
+
+                    request.execute("dbo.sp_Invite").then(function(recordsets) {
+                        let rows = recordsets.recordset;
+                        var mainKey = rows[0];
+                        var selectedKey;
+                        for (var key in mainKey) {
+                            selectedKey = key;
+                        }
+                        sql.close();
+                        publish.publisher(res, mainKey[selectedKey]);
+                    }).catch(function(err) {
+                        data.msg.Code = 500;
+                        //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
+                        data.msg.Message = err.message;
+                        publish.publisher(res, data);
+                        sql.close();
+                    });
+                }).catch(function(err) {
+                    data.msg.Code = 500;
+                    data.msg.Message = err.message;
+                    publish.publisher(res, data);
+                    sql.close();
+                });
+            }
+        });
+    } else {
+        // Unauthorized
+        data.msg.Code = 400;
+        data.msg.Message = "Unauthorized";
+        publish.publisher(res, data);
+    }
+}

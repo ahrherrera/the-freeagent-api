@@ -97,3 +97,5 @@ router.route("/FreeAgent/checkUsername").get(getFreeAgent.checkUsername);
 router.route("/FreeAgent/getPositions").get(getFreeAgent.getPositions);
 
 router.route("/FreeAgent/updateUser").post(upload.single('picUrl'), postFreeAgent.updateUser);
+
+router.route("/FreeAgent/invite").post(postFreeAgent.invite);
