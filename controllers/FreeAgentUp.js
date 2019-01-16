@@ -267,7 +267,6 @@ exports.search = function(req, res) {
                 publish.publisher(res, data);
             } else {
                 sql.connect(conn).then(function() {
-                    console.log(req.body);
                     var request = new sql.Request();
                     request.input('profile_id', sql.Int, authData.User.Profile.id);
                     request.input('PositionID', sql.Int, req.body.positionID);
@@ -327,7 +326,6 @@ exports.invite = function(req, res) {
                 publish.publisher(res, data);
             } else {
                 sql.connect(conn).then(function() {
-                    console.log(req.body);
                     var request = new sql.Request();
                     request.input('ProfileID', sql.Int, req.body.profileID);
                     request.input('SearchID', sql.Int, req.body.searchID);

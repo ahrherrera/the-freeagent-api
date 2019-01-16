@@ -95,6 +95,8 @@ router.route("/FreeAgent/search").post(postFreeAgent.search);
 router.route("/FreeAgent/getSports").get(getFreeAgent.getSports);
 router.route("/FreeAgent/checkUsername").get(getFreeAgent.checkUsername);
 router.route("/FreeAgent/getPositions").get(getFreeAgent.getPositions);
+router.route("/FreeAgent/getInvitations").get(getFreeAgent.getInvitations);
+router.route("/FreeAgent/getSentInvitations").get(getFreeAgent.getSentInvitations);
 
 router.route("/FreeAgent/updateUser").post(upload.single('picUrl'), postFreeAgent.updateUser);
 
