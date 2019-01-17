@@ -101,3 +101,4 @@ router.route("/FreeAgent/getSentInvitations").get(getFreeAgent.getSentInvitation
 router.route("/FreeAgent/updateUser").post(upload.single('picUrl'), postFreeAgent.updateUser);
 
 router.route("/FreeAgent/invite").post(postFreeAgent.invite);
+router.route("/FreeAgent/confirm").post(postFreeAgent.confirm);
