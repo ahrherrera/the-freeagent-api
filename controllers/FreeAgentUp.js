@@ -1,9 +1,14 @@
 var config = require("../connections/FreeAgentConnection.js"),
     sql = require('mssql'),
     publish = require('../publisher.js'),
-    jwt = require('jsonwebtoken');
+    jwt = require('jsonwebtoken'),
+    admin = require("firebase-admin"),
+    serviceAccount = require("../iglesiatechapp-firebase.json");
 
-
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://iglesiatechapp.firebaseio.com"
+});
 
 exports.login = function(req, res) {
     var data = {};
@@ -275,7 +280,6 @@ exports.search = function(req, res) {
                     request.input('endDate', sql.Date, req.body.endDate);
                     request.input('startTime', sql.VarChar(10), req.body.startTime);
                     request.input('endTime', sql.VarChar(10), req.body.endTime);
-                    request.input('minRate', sql.Int, req.body.minRate);
 
                     request.execute("[dbo].sp_Search").then(function(recordsets) {
                         let rows = recordsets.recordset;
