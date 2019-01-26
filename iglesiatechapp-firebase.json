@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "iglesiatechapp",
+  "private_key_id": "5369940a0a3f9e5d2c1e2321f1707d9aff1cb9ad",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC/lO9ZTXfQxIj8\nbQW7ZF+RrOBo2wmxqF9T00eQg/bkyeeeujQlwadXujEToF9bQxg/gh+AF1o9kiao\nyrMMprmOkqLajgEQ8V0XnqkFpCYQUiI5eri9YAGhyMt0b9FWyitu1mKZqFBpQl4W\nsXhG0nH2iqW8KYDejygZ1/FGpFFu0aNYjXMqNbSJzf6izkdNEEZhy0km3172/+H2\n7W8oG8G4buvsnZQ/2dz+uX/L1hfUDVVQHoUvQxTDToeMTVonZmvBXTZPLVkbaTrn\n5xTyG/UnaLoIASd4WmCe4nqdtTDVmmALTgbTz6Ac3DvtlU/3V0/83eXORMlXo9Wb\n4y5vSbz5AgMBAAECggEAQyB5OO4m5DRo1yGQF5fU0KMlQjg1TlVziViHQ8CpWoLQ\nMFKIAQ64hsmLdpgDsWNx9JawWN5V1SsHdq8HS5CDhcwlWbTV9MzNVIBYMszQNXnB\n2igA4QHpsHk9qH+hduqBi2V8yOArxKXnd8YZIZ+NJNhxt9tG9zRr1ZpPRPRAQDaB\n+EnwZ9vV9N6ctpmA6npTRH/KJ6L7lCeII1Gnx4caS4hqDhJ2oH2Sp/ftEqCkq/8t\npWH4wgbAt8yP+IAPPy4t/tUOgnslL9fz1TKtqOyz0Lr5L6WQdfHgRDs0VRQQiZEO\nmIX3sHwBRoFptVUg1mpFhSuCyXwUFutc6dbw33Q8nQKBgQD3+/3LWYtE/MO9b0oj\nfqvVi8IYkmPSSUoAb/0zJGOJNcMIEVFF1pVAhZSFplV3RpyWINJmHNa/9HS6+Vii\nMYvbA7t5eXw7clnv7MsmITMdeAR/SW1DetnU9gAior1ftWmbFNp28I6Sl7p9mpqH\nNcPObB0UBdjUNSXZahEjTMFvpwKBgQDFxjn2H52mj2486CDkLsRuWhlNknlwqULT\nl+LgqaoWKpdnacHeg/ou3hj7JMftxSaGY4JpkL1Zba2wBbphyrz/ejSz6Pii5+Pw\nxEDhUd6tmF9byt2xDDP8wjr0rb0ltmh8tCJ3aXkFMpqZvO+ACln+DepkaAMZymSG\nLPvUro4CXwKBgBxozgaB16arnnERUtkGJgFs5WuTOcRZiRTLv6IgRRbvBczizwDF\nOIwPwZgeGiRz/nRkhjYUj7Wl98mDz1elfXQ11UBxXn4g95S49/0CSKzTlxBOBSp5\n5IK1PAa7xh401khh9zUxEeRRZZgGIjXjPu9jC2HD2bdV72Qc9qGopXB5AoGAGoRY\ncyKMDa//dNUey9llZvJXoCn6dFuNZTdhKQQ2lOBDCo+IeeAyJCSNLucgk0Wyw6QF\n8UeBy8LD3ez2r3PyYUKuXEzpQVZcHoUBufQzKg1bA8CwdrOPKN2V8AZ3bN4HJmk0\nkdQncMX3KpPFfOJmbITLH4k+mS+kyMSxQzPgQHsCgYAKZefZXAF7Qe8m44qcgLBw\nk7GPo4CtqUMKeVhMIOIzV8ZsMRlya3SE6Iawe3xxJVJDjRNgud1G6xPuXYlkrQtN\nDMprZp3IinhJGadda3EASgjsNtLJ5JPA/rEyWdQRPZcrUAh4XyIKwLhBh2yLoWdL\nHVDbenUCptL39gznIt5z9Q==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-ipv3z@iglesiatechapp.iam.gserviceaccount.com",
+  "client_id": "106484213509642745169",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ipv3z%40iglesiatechapp.iam.gserviceaccount.com"
+}
