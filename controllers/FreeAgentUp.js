@@ -280,6 +280,8 @@ exports.search = function(req, res) {
                     request.input('endDate', sql.Date, req.body.endDate);
                     request.input('startTime', sql.VarChar(10), req.body.startTime);
                     request.input('endTime', sql.VarChar(10), req.body.endTime);
+                    request.input('game', sql.VarChar(10), req.body.game);
+                    request.input('park', sql.VarChar(10), req.body.park);
 
                     request.execute("[dbo].sp_Search").then(function(recordsets) {
                         let rows = recordsets.recordset;

@@ -46,7 +46,7 @@ exports.checkUsername = function(req, res) {
         var request = new sql.Request();
         request.input('Username', sql.VarChar(50), req.query.Username);
         request.input('Email', sql.VarChar(50), req.query.Email);
-        request.execute("[dbo].checkUsername").then(function(recordsets) {
+        request.execute("[dbo].sp_checkUsername").then(function(recordsets) {
             let rows = recordsets.recordset;
             publish.publisher(res, rows[0]);
             sql.close();
@@ -72,7 +72,7 @@ exports.getPositions = function(req, res) {
     sql.connect(conn).then(function() {
         var request = new sql.Request();
         request.input('SportID', sql.Int, req.query.SportID);
-        request.execute("[dbo].getPositions").then(function(recordsets) {
+        request.execute("[dbo].sp_getPositions").then(function(recordsets) {
             let rows = recordsets.recordset;
             var mainKey = rows[0];
             var selectedKey;
@@ -115,7 +115,7 @@ exports.getInvitations = function(req, res) {
                     var request = new sql.Request();
                     request.input('ProfileID', sql.Int, authData.User.Profile.id);
 
-                    request.execute("dbo.getInvitations").then(function(recordsets) {
+                    request.execute("dbo.sp_getInvitations").then(function(recordsets) {
                         let rows = recordsets.recordset;
                         var mainKey = rows[0];
                         var selectedKey;
@@ -167,7 +167,7 @@ exports.getSentInvitations = function(req, res) {
                     var request = new sql.Request();
                     request.input('ProfileID', sql.Int, authData.User.Profile.id);
 
-                    request.execute("dbo.getSentInvitations").then(function(recordsets) {
+                    request.execute("dbo.sp_getSentInvitations").then(function(recordsets) {
                         let rows = recordsets.recordset;
                         var mainKey = rows[0];
                         var selectedKey;
