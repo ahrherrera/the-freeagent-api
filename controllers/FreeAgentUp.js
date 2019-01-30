@@ -278,12 +278,6 @@ exports.search = function(req, res) {
                     request.input('SportID', sql.Int, req.body.sportID);
                     request.input('gender', sql.Int, req.body.gender);
                     request.input('distance', sql.Int, req.body.distance);
-                    //request.input('startDate', sql.Date, req.body.startDate);
-                    //request.input('endDate', sql.Date, req.body.endDate);
-                    //request.input('startTime', sql.VarChar(10), req.body.startTime);
-                    //request.input('endTime', sql.VarChar(10), req.body.endTime);
-                    //request.input('game', sql.VarChar(10), req.body.game);
-                    //request.input('park', sql.VarChar(10), req.body.park);
 
                     request.execute("[dbo].sp_Search").then(function(recordsets) {
                         let rows = recordsets.recordset;
