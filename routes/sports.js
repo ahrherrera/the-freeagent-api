@@ -4,7 +4,7 @@ var sportsModel = require("../models/sports/sports");
 
 router.get('/getSports', function(req, res, next) {
     sportsModel
-        .search()
+        .getSports()
         .then(
             function(response) { //success
                 console.log("Success!");
