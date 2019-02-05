@@ -219,5 +219,3 @@ exports.confirm = function(req) {
         }
     });
 }
-
-module.exports = router;

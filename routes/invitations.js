@@ -76,3 +76,5 @@ router.post("/confirm", function(req, res, next) {
             res.status(500).send(ex); //return exception with 500
         });
 });
+
+module.exports = router;
