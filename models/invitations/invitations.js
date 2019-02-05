@@ -51,7 +51,7 @@ exports.getInvitations = function(req) {
             // Unauthorized
             data.msg.Code = 400;
             data.msg.Message = "Unauthorized";
-            publish.publisher(res, data);
+            return reject(data);
         }
     });
 }
@@ -105,7 +105,7 @@ exports.getSentInvitations = function(req) {
             // Unauthorized
             data.msg.Code = 400;
             data.msg.Message = "Unauthorized";
-            publish.publisher(res, data);
+            return reject(data);
         }
     });
 }
@@ -145,8 +145,8 @@ exports.invite = function(req) {
                             data.msg.Code = 500;
                             //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
                             data.msg.Message = err.message;
-                            publish.publisher(res, data);
                             sql.close();
+                            return reject(data);
                         });
                     }).catch(function(err) {
                         data.msg.Code = 500;
@@ -195,19 +195,19 @@ exports.confirm = function(req) {
                                 selectedKey = key;
                             }
                             sql.close();
-                            publish.publisher(res, mainKey[selectedKey]);
+                            return resolve(mainKey[selectedKey])
                         }).catch(function(err) {
                             data.msg.Code = 500;
                             //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
                             data.msg.Message = err.message;
-                            publish.publisher(res, data);
                             sql.close();
+                            return reject(data);
                         });
                     }).catch(function(err) {
                         data.msg.Code = 500;
                         data.msg.Message = err.message;
-                        publish.publisher(res, data);
                         sql.close();
+                        return reject(data);
                     });
                 }
             });
