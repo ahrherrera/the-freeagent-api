@@ -59,8 +59,6 @@ router.post("/login", function(req, res, next) {
         .then(
             function(response) { //success
                 console.log("Success!");
-                res.header("Access-Control-Allow-Origin", "*");
-                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 res.send(response); //return the data
             },
             function(error) { //failed
