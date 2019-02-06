@@ -38,4 +38,5 @@ router.get('/getPositions', function(req, res, next) {
         });
 });
 
+
 module.exports = router;
