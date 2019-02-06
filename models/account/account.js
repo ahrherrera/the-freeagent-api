@@ -22,7 +22,7 @@ exports.testConnection = function(req) {
 
 exports.login = function(req) {
     return new Promise((resolve, reject) => { //return promise, callbacks are bad!
-
+        console.log(req.body);
         var conn = config.findConfig();
         var data = {};
         data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };

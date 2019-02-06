@@ -25,10 +25,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/account', accountRouter);
-app.use('/search', searchRouter);
-app.use('/sports', sportRouter);
-app.use('/invitation', invitationRouter);
+app.use('/api/account', accountRouter);
+app.use('/api/search', searchRouter);
+app.use('/api/sports', sportRouter);
+app.use('/api/invitation', invitationRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
