@@ -148,7 +148,7 @@ router.get("/checkUsername", function(req, res, next) {
         });
 });
 
-router.get("/updateUser", upload.single('picUrl'), function(req, res, next) {
+router.post("/updateUser", upload.single('picUrl'), function(req, res, next) {
     accountModel // call the promise
         .updateUser(req)
         .then(
