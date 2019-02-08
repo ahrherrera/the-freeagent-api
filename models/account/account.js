@@ -301,7 +301,7 @@ exports.updateUser = function(req) {
                         request.input('skill', sql.Int, req.body.skill);
                         request.input('Positions', sql.VarChar(sql.MAX), req.body.Positions);
                         if (req.file) {
-                            request.input('picUrl', sql.VarChar(500), req.file.destination + req.file.filename);
+                            request.input('picUrl', sql.VarChar(500), req.file.destination + "/" + req.file.filename);
                         } else {
                             request.input('picUrl', sql.VarChar(500), 'n/a');
                         }
