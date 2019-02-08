@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var searchModel = require("../models/searches/search");
 
-router.get('/search', function(req, res, next) {
+router.post('/search', function(req, res, next) {
     searchModel
         .search(req)
         .then(

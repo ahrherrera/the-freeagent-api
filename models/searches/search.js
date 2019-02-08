@@ -8,6 +8,8 @@ exports.search = function(req) {
         data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };
         var conn = config.findConfig();
 
+        console.log("Search", req.body);
+
         const bearerHeader = req.headers['authorization'];
         if (typeof bearerHeader !== 'undefined') {
             const bearer = bearerHeader.split(' ');
@@ -25,8 +27,10 @@ exports.search = function(req) {
                         request.input('PositionID', sql.Int, req.body.positionID);
                         request.input('SportID', sql.Int, req.body.sportID);
                         request.input('gender', sql.Int, req.body.gender);
-                        request.input('startTime', sql.Time(7), req.body.startTime);
-                        request.input('endTime', sql.Time(7), req.body.endTime);
+                        request.input('startTime', sql.VarChar(10), req.body.startTime);
+                        request.input('endTime', sql.VarChar(10), req.body.endTime);
+                        request.input('startDate', sql.Date, req.body.startDate);
+                        request.input('endDate', sql.Date, req.body.endDate);
                         request.input('park', sql.NVarChar(200), req.body.park);
                         request.input('distance', sql.Int, req.body.distance);
 
