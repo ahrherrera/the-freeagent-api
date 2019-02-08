@@ -23,6 +23,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors({ origin: '*' }));
 app.use('/public/images', express.static('public/images'));
 
 app.use('/', indexRouter);
