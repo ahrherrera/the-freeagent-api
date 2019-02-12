@@ -87,7 +87,7 @@ exports.sendCode = function(req) {
 
                 //Antes de enviar la respuesta, enviar el email
 
-                return resolve(rows[0].Status);
+                return resolve(rows[0]);
             }).catch(function(err) {
                 data.msg.Code = 500;
                 //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
