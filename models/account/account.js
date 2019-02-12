@@ -130,6 +130,8 @@ exports.registerDevice = function(req) {
 exports.register = function(req) {
     return new Promise((resolve, reject) => { //return promise, callbacks are bad!
 
+        console.log(req.body);
+
         var conn = config.findConfig();
         var data = {};
         data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };
@@ -139,13 +141,17 @@ exports.register = function(req) {
             request.input('LastName', sql.VarChar(150), req.body.LastName);
             request.input('Email', sql.VarChar(100), req.body.Email);
             request.input('phone', sql.VarChar(15), req.body.phone);
-            request.input('ServiceID', sql.Int, req.body.serviceID);
-            request.input('TypeID', sql.Int, req.body.TypeID);
+            request.input('sportID', sql.Int, req.body.SportID);
+            request.input('gender', sql.Int, req.body.gender);
             request.input('birthday', sql.Date, req.body.birthday);
             request.input('username', sql.VarChar(150), req.body.username);
             request.input('password', sql.VarChar(100), req.body.password);
             request.input('state', sql.VarChar(100), req.body.state);
             request.input('city', sql.VarChar(100), req.body.city);
+            request.input('role', sql.Int, req.body.role);
+            request.input('bio', sql.VarChar(500), req.body.bio);
+            request.input('skill', sql.Int, req.body.skill);
+            request.input('Positions', sql.NVarChar(sql.MAX), req.body.Positions);
 
             request.execute("[dbo].sp_CreateUser").then(function(recordsets) {
                 let rows = recordsets.recordset;
