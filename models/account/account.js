@@ -69,6 +69,44 @@ exports.login = function(req) {
     });
 };
 
+exports.sendCode = function(req) {
+    return new Promise((resolve, reject) => {
+        var data = {};
+        data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };
+
+        var conn = config.findConfig();
+
+
+        sql.connect(conn).then(function() {
+            var request = new sql.Request();
+            request.input('Email', sql.VarChar(100), req.body.email);
+
+            request.execute("dbo.sp_SendCode").then(function(recordsets) {
+                let rows = recordsets.recordset;
+                sql.close();
+
+                //Antes de enviar la respuesta, enviar el email
+
+                return resolve(rows[0].Status);
+            }).catch(function(err) {
+                data.msg.Code = 500;
+                //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
+                data.msg.Message = err.message;
+                sql.close();
+                return reject(data);
+            });
+        }).catch(function(err) {
+            data.msg.Code = 500;
+            data.msg.Message = err.message;
+            sql.close();
+            return reject(data);
+        });
+
+
+
+    });
+}
+
 exports.registerDevice = function(req) {
     return new Promise((resolve, reject) => {
         var data = {};
