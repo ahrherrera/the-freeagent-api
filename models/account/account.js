@@ -44,7 +44,7 @@ exports.login = function(req) {
                     if (mainKey.Status == 0) {
                         data.msg.Code = 400;
                         data.msg.Message = mainKey.Mensaje;
-                        return reject(data);
+                        return resolve(data);
 
                     } else {
                         jwt.sign(JSON.parse(mainKey[selectedKey]), 'cKWM5oINGy', (err, token) => {
@@ -68,6 +68,76 @@ exports.login = function(req) {
             });
     });
 };
+
+exports.verifyCode = function(req) {
+    return new Promise((resolve, reject) => {
+        var data = {};
+        data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };
+
+        var conn = config.findConfig();
+
+
+        sql.connect(conn).then(function() {
+            var request = new sql.Request();
+            request.input('Code', sql.VarChar(6), req.body.code);
+            request.input('User', sql.Int, req.body.user);
+
+            request.execute("dbo.sp_verifyCode").then(function(recordsets) {
+                let rows = recordsets.recordset;
+                sql.close();
+                return resolve(rows[0]);
+            }).catch(function(err) {
+                data.msg.Code = 500;
+                //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
+                data.msg.Message = err.message;
+                sql.close();
+                return reject(data);
+            });
+        }).catch(function(err) {
+            data.msg.Code = 500;
+            data.msg.Message = err.message;
+            sql.close();
+            return reject(data);
+        });
+    });
+}
+
+exports.resetPassword = function(req) {
+    return new Promise((resolve, reject) => {
+        var data = {};
+        data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };
+
+        var conn = config.findConfig();
+
+
+        sql.connect(conn).then(function() {
+            var request = new sql.Request();
+            request.input('Code', sql.VarChar(6), req.body.code);
+            request.input('Password', sql.VarChar(100), req.body.password);
+            request.input('User', sql.Int, req.body.user);
+
+            request.execute("dbo.sp_ResetPassword").then(function(recordsets) {
+                let rows = recordsets.recordset;
+                sql.close();
+
+                //Antes de enviar la respuesta, enviar el email
+
+                return resolve(rows[0]);
+            }).catch(function(err) {
+                data.msg.Code = 500;
+                //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
+                data.msg.Message = err.message;
+                sql.close();
+                return reject(data);
+            });
+        }).catch(function(err) {
+            data.msg.Code = 500;
+            data.msg.Message = err.message;
+            sql.close();
+            return reject(data);
+        });
+    });
+}
 
 exports.sendCode = function(req) {
     return new Promise((resolve, reject) => {
@@ -101,9 +171,6 @@ exports.sendCode = function(req) {
             sql.close();
             return reject(data);
         });
-
-
-
     });
 }
 
