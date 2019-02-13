@@ -320,6 +320,58 @@ exports.register = function(req) {
     });
 };
 
+exports.changePassword = function(req) {
+    return new Promise((resolve, reject) => { //return promise, callbacks are bad!
+
+        var conn = config.findConfig();
+        var data = {};
+        data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };
+        const bearerHeader = req.headers['authorization'];
+        if (typeof bearerHeader !== 'undefined') {
+            const bearer = bearerHeader.split(' ');
+            const bearerToken = bearer[1];
+            req.token = bearerToken;
+            jwt.verify(req.token, 'cKWM5oINGy', (err, authData) => {
+                if (err) {
+                    data.msg.Code = 400;
+                    data.msg.Message = "Unauthorized";
+                    return reject(data);
+                } else {
+                    sql.connect(conn).then(function() {
+                        var request = new sql.Request();
+                        request.input('ID', sql.Int, authData.User.UserID);
+                        request.input('ActualPassword', sql.VarChar(100), req.body.oldPass);
+                        request.input('NewPassword', sql.VarChar(100), req.body.newPass);
+
+                        request.execute("[dbo].sp_ChangePassword").then(function(recordsets) {
+                            let rows = recordsets.recordset;
+                            sql.close();
+                            return resolve(rows[0]);
+                        }).catch(function(err) {
+                            data.msg.Code = 500;
+                            //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
+                            data.msg.Message = err.message;
+                            sql.close();
+                            return reject(data);
+                        });
+                    }).catch(function(err) {
+                        data.msg.Code = 500;
+                        data.msg.Message = err.message;
+                        sql.close();
+                        return reject(data);
+                    });
+                }
+            });
+        } else {
+            // Unauthorized
+            data.msg.Code = 400;
+            data.msg.Message = "Unauthorized";
+            return reject(data);
+        }
+
+    });
+};
+
 exports.sendLocation = function(req) {
     return new Promise((resolve, reject) => { //return promise, callbacks are bad!
 
