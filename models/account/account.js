@@ -1,6 +1,15 @@
 var config = require("../../controllers/mssql/mssqlconnector"),
     sql = require('mssql'),
-    jwt = require('jsonwebtoken');
+    jwt = require('jsonwebtoken'),
+    nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'thefreeagent.app@gmail.com',
+        pass: 'admine2O'
+    }
+});
 
 //Module export returning a promise
 
@@ -157,6 +166,22 @@ exports.sendCode = function(req) {
 
                 //Antes de enviar la respuesta, enviar el email
 
+                if (rows[0].Estado) {
+                    const mailOptions = {
+                        from: 'thefreeagent.app@gmail.com', // sender address
+                        to: req.body.email, // list of receivers
+                        subject: 'Your verification code to Reset Your Password', // Subject line
+                        html: '<p style="Margin-top: 0;Margin-bottom: 20px;text-align: center;"><span style="color:#000">Your verification code is&nbsp;<strong>' + rows[0].Reset_CODE + '</strong><br /><br />Return to the app and type this code.</span></p>' // plain text body
+                    };
+
+                    transporter.sendMail(mailOptions, function(err, info) {
+                        if (err)
+                            console.log(err);
+                        else
+                            console.log(info);
+                    });
+                }
+
                 return resolve(rows[0]);
             }).catch(function(err) {
                 data.msg.Code = 500;
@@ -253,7 +278,6 @@ exports.register = function(req) {
             request.input('password', sql.VarChar(100), req.body.password);
             request.input('state', sql.VarChar(100), req.body.state);
             request.input('city', sql.VarChar(100), req.body.city);
-            request.input('role', sql.Int, req.body.role);
             request.input('bio', sql.VarChar(500), req.body.bio);
             request.input('skill', sql.Int, req.body.skill);
             request.input('Positions', sql.NVarChar(sql.MAX), req.body.Positions);
