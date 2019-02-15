@@ -3,6 +3,11 @@ var config = require("../../controllers/mssql/mssqlconnector"),
     jwt = require('jsonwebtoken'),
     nodemailer = require('nodemailer');
 
+const keyPublishable = 'pk_test_vRccfbsAZa2WcDF8j9XljTsk';
+const keySecret = 'sk_test_wnDrNn7dRx3d3L4fMPFgRyhQ';
+
+const stripe = require("stripe")(keySecret);
+
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -319,6 +324,85 @@ exports.register = function(req) {
         });
     });
 };
+
+
+
+exports.charge = function(req) {
+    return new Promise((resolve, reject) => {
+        var conn = config.findConfig();
+        var data = {};
+        data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };
+
+        const bearerHeader = req.headers['authorization'];
+        if (typeof bearerHeader !== 'undefined') {
+            const bearer = bearerHeader.split(' ');
+            const bearerToken = bearer[1];
+            req.token = bearerToken;
+            jwt.verify(req.token, 'cKWM5oINGy', (err, authData) => {
+                if (err) {
+                    data.msg.Code = 400;
+                    data.msg.Message = "Unauthorized";
+                    return reject(data);
+                } else {
+
+                    let amount = 1.99 * 100;
+
+                    stripe.customers.create({
+                        email: req.body.email,
+                        source: req.body.stripeToken
+                    }).then(customer => {
+                        stripe.charges.create({
+                            amount,
+                            description: "The Free Agent premium features",
+                            currency: "usd",
+                            customer: customer.id
+                        }).then(charge => {
+
+                            //Save payment and change user Status in database
+                            console.log(charge);
+                            return resolve({ message: "Charged Successfully", Estado: 1, payload: charge });
+                        }).catch(error => {
+                            console.log(error);
+                            return resolve(error);
+                        });
+                    }).catch(error => {
+                        console.log(error);
+                        return resolve(error);
+                    });
+
+                    // sql.connect(conn).then(function() {
+                    //     var request = new sql.Request();
+                    //     request.input('', sql.VarChar(100), req.body.oldPass);
+                    //     request.input('NewPassword', sql.VarChar(100), req.body.newPass);
+
+                    //     request.execute("[dbo].sp_ChangePassword").then(function(recordsets) {
+                    //         let rows = recordsets.recordset;
+                    //         sql.close();
+                    //         return resolve(rows[0]);
+                    //     }).catch(function(err) {
+                    //         data.msg.Code = 500;
+                    //         //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
+                    //         data.msg.Message = err.message;
+                    //         sql.close();
+                    //         return reject(data);
+                    //     });
+                    // }).catch(function(err) {
+                    //     data.msg.Code = 500;
+                    //     data.msg.Message = err.message;
+                    //     sql.close();
+                    //     return reject(data);
+                    // });
+                }
+            });
+        } else {
+            // Unauthorized
+            data.msg.Code = 400;
+            data.msg.Message = "Unauthorized";
+            return reject(data);
+        }
+
+    });
+}
 
 exports.changePassword = function(req) {
     return new Promise((resolve, reject) => { //return promise, callbacks are bad!
