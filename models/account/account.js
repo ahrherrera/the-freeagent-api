@@ -360,7 +360,63 @@ exports.charge = function(req) {
 
                             //Save payment and change user Status in database
                             console.log(charge);
-                            return resolve({ message: "Charged Successfully", Estado: 1, payload: charge });
+
+                            if (charge.paid == true) {
+                                sql.connect(conn).then(function() {
+                                    var request = new sql.Request();
+                                    request.input('profileID', sql.Int, authData.User.Profile.id);
+                                    request.input('token', sql.VarChar(300), charge.id);
+
+                                    request.execute("[dbo].sp_savePayment").then(function(recordsets) {
+                                        let rows = recordsets.recordset;
+                                        var mainKey = rows[0];
+                                        var selectedKey;
+                                        for (var key in mainKey) {
+                                            selectedKey = key;
+                                        }
+
+                                        jwt.sign(JSON.parse(mainKey[selectedKey]), 'cKWM5oINGy', (err, token) => {
+                                            data = {
+                                                message: "Charged Successfully",
+                                                Estado: 1,
+                                                token: token
+                                            };
+                                            return resolve(data);
+                                        });
+
+                                        sql.close();
+
+                                        const mailOptions = {
+                                            from: 'thefreeagent.app@gmail.com', // sender address
+                                            to: req.body.email, // list of receivers
+                                            subject: 'Thank you for purchasing Premium Account', // Subject line
+                                            html: `<p style="Margin-top: 0;Margin-bottom: 20px;text-align: center;"><span style="color:#000">We've charged &nbsp;<strong>$1.99</strong> to activate The Free Agent Premium account.<br /><br />- The Free Agent Team</span></p>` // plain text body
+                                        };
+
+                                        transporter.sendMail(mailOptions, function(err, info) {
+                                            if (err)
+                                                console.log(err);
+                                            else
+                                                console.log(info);
+                                        });
+
+
+                                    }).catch(function(err) {
+                                        data.msg.Code = 500;
+                                        //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
+                                        data.msg.Message = err.message;
+                                        sql.close();
+                                        return reject(data);
+                                    });
+                                }).catch(function(err) {
+                                    data.msg.Code = 500;
+                                    data.msg.Message = err.message;
+                                    sql.close();
+                                    return reject(data);
+                                });
+                            } else {
+                                return resolve({ message: "Not charged", Estado: 0, payload: charge });
+                            }
                         }).catch(error => {
                             console.log(error);
                             return resolve(error);
@@ -369,29 +425,6 @@ exports.charge = function(req) {
                         console.log(error);
                         return resolve(error);
                     });
-
-                    // sql.connect(conn).then(function() {
-                    //     var request = new sql.Request();
-                    //     request.input('', sql.VarChar(100), req.body.oldPass);
-                    //     request.input('NewPassword', sql.VarChar(100), req.body.newPass);
-
-                    //     request.execute("[dbo].sp_ChangePassword").then(function(recordsets) {
-                    //         let rows = recordsets.recordset;
-                    //         sql.close();
-                    //         return resolve(rows[0]);
-                    //     }).catch(function(err) {
-                    //         data.msg.Code = 500;
-                    //         //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
-                    //         data.msg.Message = err.message;
-                    //         sql.close();
-                    //         return reject(data);
-                    //     });
-                    // }).catch(function(err) {
-                    //     data.msg.Code = 500;
-                    //     data.msg.Message = err.message;
-                    //     sql.close();
-                    //     return reject(data);
-                    // });
                 }
             });
         } else {
