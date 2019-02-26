@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="350px" height="350px" viewBox="0 0 350 350" enable-background="new 0 0 350 350" xml:space="preserve">
+<g>
+	<defs>
+		<rect id="SVGID_17_" x="605.841" y="-81.001" width="512" height="512"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_17_"  overflow="visible"/>
+	</clipPath>
+	<g clip-path="url(#SVGID_2_)">
+		<g>
+			<g>
+				<defs>
+					<rect id="SVGID_30_" x="600.045" y="-290.664" width="523.824" height="931.555"/>
+				</defs>
+				<clipPath id="SVGID_4_">
+					<use xlink:href="#SVGID_30_"  overflow="visible"/>
+				</clipPath>
+				<g clip-path="url(#SVGID_4_)">
+					<defs>
+						<rect id="SVGID_32_" x="600.044" y="-290.664" width="523.825" height="931.555"/>
+					</defs>
+					<clipPath id="SVGID_6_">
+						<use xlink:href="#SVGID_32_"  overflow="visible"/>
+					</clipPath>
+					
+						<rect x="265.547" y="-361.938" transform="matrix(-0.5739 0.8189 -0.8189 -0.5739 1472.7997 -432.8641)" clip-path="url(#SVGID_6_)" fill="#FF6600" width="1166.928" height="1057.318"/>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+<circle opacity="0.1" fill="#5D5D5D" cx="175" cy="175" r="161.819"/>
+<g>
+	<defs>
+		<circle id="SVGID_129_" cx="175" cy="175" r="162.331"/>
+	</defs>
+	<clipPath id="SVGID_8_">
+		<use xlink:href="#SVGID_129_"  overflow="visible"/>
+	</clipPath>
+	<path opacity="0.2" clip-path="url(#SVGID_8_)" fill="#5D5D5D" d="M337.631,377.457c0,89.82-72.81,162.63-162.63,162.63
+		s-162.63-72.81-162.63-162.63c0-67.35,40.93-125.13,99.27-149.83c15.64,17.3,38.26,28.18,63.36,28.18s47.72-10.88,63.36-28.18
+		C296.701,252.327,337.631,310.107,337.631,377.457z"/>
+	<g opacity="0.2" clip-path="url(#SVGID_8_)">
+		<path fill="#5D5D5D" d="M249.461,170.347c0,20.74-8.53,39.53-22.26,53.04c-13.44,13.24-31.89,21.42-52.2,21.42
+			s-38.76-8.18-52.2-21.42c-13.73-13.51-22.26-32.3-22.26-53.04c0-41.06,33.4-74.47,74.46-74.47S249.461,129.287,249.461,170.347z"
+			/>
+	</g>
+</g>
+</svg>
