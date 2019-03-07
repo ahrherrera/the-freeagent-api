@@ -225,7 +225,7 @@ exports.registerDevice = function(req) {
                     sql.connect(conn).then(function() {
                         var request = new sql.Request();
                         request.input('ProfileID', sql.Int, req.body.profileID);
-                        request.input('registrationID', sql.Int, req.body.registrationID);
+                        request.input('registrationID', sql.VarChar(500), req.body.registrationID);
 
                         request.execute("dbo.sp_registerDevice").then(function(recordsets) {
                             let rows = recordsets.recordset;

@@ -81,6 +81,7 @@ exports.getMySearches = function(req) {
             const bearerToken = bearer[1];
             req.token = bearerToken;
             jwt.verify(req.token, 'cKWM5oINGy', (err, authData) => {
+                console.log(authData.User.Profile.id);
                 if (err) {
                     data.msg.Code = 400;
                     data.msg.Message = "Unauthorized";
