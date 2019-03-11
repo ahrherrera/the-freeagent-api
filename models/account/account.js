@@ -235,7 +235,7 @@ exports.registerDevice = function(req) {
                                 selectedKey = key;
                             }
                             sql.close();
-                            return resolve(mainKey[selectedKey]);
+                            return resolve({ response: mainKey[selectedKey] });
                         }).catch(function(err) {
                             data.msg.Code = 500;
                             //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
