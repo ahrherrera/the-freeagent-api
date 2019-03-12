@@ -164,9 +164,15 @@ exports.invite = function(req) {
                                     notification: {
                                         title: 'New Request arrived!',
                                         body: 'You have a new invitation from a Player',
+                                        // click_action: "FCM_PLUGIN_ACTIVITY"
                                     },
                                     data: {
                                         type: String(TypeNotification.INVITE)
+                                    },
+                                    android: {
+                                        notification: {
+                                            clickAction: "FCM_PLUGIN_ACTIVITY"
+                                        }
                                     },
                                     token: tokenDev
                                 };
@@ -249,9 +255,15 @@ exports.confirm = function(req) {
                                     notification: {
                                         title: 'A player you invited has confirmed',
                                         body: 'Tap here to see invitation status',
+                                        // click_action: "FCM_PLUGIN_ACTIVITY"
                                     },
                                     data: {
                                         type: String(TypeNotification.CONFIRMATION)
+                                    },
+                                    android: {
+                                        notification: {
+                                            clickAction: "FCM_PLUGIN_ACTIVITY"
+                                        }
                                     },
                                     token: tokenDev
                                 };
@@ -292,6 +304,51 @@ exports.confirm = function(req) {
         }
     });
 }
+
+// exports.testPush = function(req) {
+//     return new Promise((resolve, reject) => {
+//         var data = {};
+//         data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };
+//         var conn = config.findConfig();
+
+
+//         //Setup push notifications here
+
+//         getDevices(req.body.id).then(data => {
+
+//             var tokenDev = JSON.parse(data).RegistrationID;
+
+//             var message = {
+//                 notification: {
+//                     title: 'A player you invited has confirmed',
+//                     body: 'Tap here to see invitation status',
+//                 },
+//                 data: {
+//                     type: String(TypeNotification.CONFIRMATION)
+//                 },
+//                 android: {
+//                     notification: {
+//                         clickAction: "FCM_PLUGIN_ACTIVITY"
+//                     }
+//                 },
+//                 token: tokenDev
+//             };
+
+//             // Send a message to the device corresponding to the provided
+//             // registration token.
+//             admin.messaging().send(message)
+//                 .then((response) => {
+//                     // Response is a message ID string.
+//                     console.log('Successfully sent message:', response);
+//                 })
+//                 .catch((error) => {
+//                     console.log('Error sending message:', error);
+//                 });
+//         });
+
+//         return resolve(data);
+//     });
+// }
 
 function getDevices(ProfileID) {
     return new Promise((resolve, reject) => {
