@@ -32,6 +32,7 @@ exports.getInvitations = function(req) {
                     data.msg.Message = "Unauthorized";
                     return reject(data);
                 } else {
+                    sql.close();
                     sql.connect(conn).then(function() {
                         var request = new sql.Request();
                         request.input('ProfileID', sql.Int, authData.User.Profile.id);
@@ -305,50 +306,91 @@ exports.confirm = function(req) {
     });
 }
 
-// exports.testPush = function(req) {
-//     return new Promise((resolve, reject) => {
-//         var data = {};
-//         data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };
-//         var conn = config.findConfig();
+exports.cancelInvitation = function(req) {
+    return new Promise((resolve, reject) => {
+        var data = {};
+        data.msg = { Code: 200, Message: 'Exito!', Tipo: 'n/a' };
+        var conn = config.findConfig();
 
+        const bearerHeader = req.headers['authorization'];
+        if (typeof bearerHeader !== 'undefined') {
+            const bearer = bearerHeader.split(' ');
+            const bearerToken = bearer[1];
+            req.token = bearerToken;
+            jwt.verify(req.token, 'cKWM5oINGy', (err, authData) => {
+                if (err) {
+                    data.msg.Code = 400;
+                    data.msg.Message = "Unauthorized";
+                    return reject(data);
+                } else {
+                    sql.connect(conn).then(function() {
+                        var request = new sql.Request();
+                        request.input('InvitationID', sql.Int, req.body.invitationID);
 
-//         //Setup push notifications here
+                        request.execute("dbo.sp_CancelInvitation").then(function(recordsets) {
+                            let rows = recordsets.recordset;
+                            var mainKey = rows[0];
+                            sql.close();
 
-//         getDevices(req.body.id).then(data => {
+                            //Setup push notifications here
+                            getDevices(req.body.id).then(data => {
+                                console.log("got Device", data);
 
-//             var tokenDev = JSON.parse(data).RegistrationID;
+                                var tokenDev = JSON.parse(data).RegistrationID;
 
-//             var message = {
-//                 notification: {
-//                     title: 'A player you invited has confirmed',
-//                     body: 'Tap here to see invitation status',
-//                 },
-//                 data: {
-//                     type: String(TypeNotification.CONFIRMATION)
-//                 },
-//                 android: {
-//                     notification: {
-//                         clickAction: "FCM_PLUGIN_ACTIVITY"
-//                     }
-//                 },
-//                 token: tokenDev
-//             };
+                                var message = {
+                                    notification: {
+                                        title: 'A invitation has been cancelled',
+                                        body: 'Tap here to see invitation details',
+                                        // click_action: "FCM_PLUGIN_ACTIVITY"
+                                    },
+                                    data: {
+                                        type: String(TypeNotification.CONFIRMATION)
+                                    },
+                                    android: {
+                                        notification: {
+                                            clickAction: "FCM_PLUGIN_ACTIVITY"
+                                        }
+                                    },
+                                    token: tokenDev
+                                };
 
-//             // Send a message to the device corresponding to the provided
-//             // registration token.
-//             admin.messaging().send(message)
-//                 .then((response) => {
-//                     // Response is a message ID string.
-//                     console.log('Successfully sent message:', response);
-//                 })
-//                 .catch((error) => {
-//                     console.log('Error sending message:', error);
-//                 });
-//         });
-
-//         return resolve(data);
-//     });
-// }
+                                // Send a message to the device corresponding to the provided
+                                // registration token.
+                                admin.messaging().send(message)
+                                    .then((response) => {
+                                        // Response is a message ID string.
+                                        console.log('Successfully sent message:', response);
+                                    })
+                                    .catch((error) => {
+                                        console.log('Error sending message:', error);
+                                    });
+                            });
+                            return resolve(mainKey);
+                        }).catch(function(err) {
+                            data.msg.Code = 500;
+                            console.log("Error obteniendo Devices")
+                                //TODO: EN produccion cambiar mensajes a "Opps! Something ocurred."
+                            data.msg.Message = err.message;
+                            sql.close();
+                            return reject(data);
+                        });
+                    }).catch(function(err) {
+                        data.msg.Code = 500;
+                        data.msg.Message = err.message;
+                        sql.close();
+                        return reject(data);
+                    });
+                }
+            });
+        } else {
+            // Unauthorized
+            data.msg.Code = 400;
+            data.msg.Message = "Unauthorized";
+            return reject(data);
+        }
+    });
+}
 
 function getDevices(ProfileID) {
     return new Promise((resolve, reject) => {
