@@ -27,11 +27,11 @@ exports.search = function(req) {
                         request.input('PositionID', sql.Int, req.body.positionID);
                         request.input('SportID', sql.Int, req.body.sportID);
                         request.input('gender', sql.Int, req.body.gender);
-                        request.input('startTime', sql.VarChar(10), req.body.startTime);
-                        request.input('endTime', sql.VarChar(10), req.body.endTime);
-                        request.input('startDate', sql.Date, req.body.startDate);
-                        request.input('endDate', sql.Date, req.body.endDate);
-                        request.input('park', sql.NVarChar(200), req.body.park);
+                        // request.input('startTime', sql.VarChar(10), req.body.startTime);
+                        // request.input('endTime', sql.VarChar(10), req.body.endTime);
+                        // request.input('startDate', sql.Date, req.body.startDate);
+                        // request.input('endDate', sql.Date, req.body.endDate);
+                        // request.input('park', sql.NVarChar(200), req.body.park);
                         request.input('distance', sql.Int, req.body.distance);
 
                         request.execute("[dbo].sp_Search").then(function(recordsets) {
