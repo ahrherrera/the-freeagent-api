@@ -1,9 +1,9 @@
 [{
     "freeAgent": {
-        "user": "userE2FreeAgent",
-        "password": "?Njp3t29",
-        "server": "mi3-wsq3.a2hosting.com",
-        "database": "E2Outlook_FreeAgentApp",
+        "user": "jaimehere_iglesiatechbd",
+        "password": "C327da5f2D",
+        "server": "192.185.6.233",
+        "database": "jaimehere_FreeAgent",
         "options": {
             "encrypt": true
         }
