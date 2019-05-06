@@ -12,7 +12,8 @@ admin.initializeApp({
 
 const TypeNotification = {
     INVITE: 0,
-    CONFIRMATION: 1
+    CONFIRMATION: 1,
+    CANCELLATION: 2
 }
 
 exports.getInvitations = function(req) {
@@ -168,7 +169,7 @@ exports.invite = function(req) {
                                         // click_action: "FCM_PLUGIN_ACTIVITY"
                                     },
                                     data: {
-                                        type: String(TypeNotification.INVITE)
+                                        mode: String(TypeNotification.INVITE)
                                     },
                                     android: {
                                         notification: {
@@ -259,7 +260,7 @@ exports.confirm = function(req) {
                                         // click_action: "FCM_PLUGIN_ACTIVITY"
                                     },
                                     data: {
-                                        type: String(TypeNotification.CONFIRMATION)
+                                        mode: String(TypeNotification.CONFIRMATION)
                                     },
                                     android: {
                                         notification: {
@@ -341,11 +342,10 @@ exports.cancelInvitation = function(req) {
                                 var message = {
                                     notification: {
                                         title: 'A invitation has been cancelled',
-                                        body: 'Tap here to see invitation details',
-                                        // click_action: "FCM_PLUGIN_ACTIVITY"
+                                        body: 'Tap here to see invitation details'
                                     },
                                     data: {
-                                        type: String(TypeNotification.CONFIRMATION)
+                                        mode: "CANCEL"
                                     },
                                     android: {
                                         notification: {
